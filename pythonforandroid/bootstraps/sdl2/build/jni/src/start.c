@@ -68,6 +68,16 @@ int file_exists(const char *filename) {
 
 /* int main(int argc, char **argv) { */
 int main(int argc, char *argv[]) {
+  LOGP("main() begin");
+
+  char out[1024];
+  snprintf(out, 1024, "argc: %d", argc);
+  LOGP(out);
+  for (int i = 0; i < argc; i++) {
+    snprintf(out, 1024, "  item[%d]: %s", i, argv[i]);
+    LOGP(out);
+  }
+
 
   char *env_argument = NULL;
   char *env_entrypoint = NULL;
@@ -266,9 +276,11 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
+  LOGP("run PyRun_SimpleFile begin");
   /* run python !
    */
   ret = PyRun_SimpleFile(fd, entrypoint);
+  LOGP("run PyRun_SimpleFile end");
 
   if (PyErr_Occurred() != NULL) {
     ret = 1;
@@ -292,7 +304,8 @@ JNIEXPORT void JNICALL Java_org_kivy_android_PythonService_nativeStart(
     JNIEnv *env, jobject thiz, jstring j_android_private,
     jstring j_android_argument, jstring j_service_entrypoint,
     jstring j_python_name, jstring j_python_home, jstring j_python_path,
-    jstring j_arg) {
+    jstring j_arg, jobjectArray j_application_args) {
+  LOGP("Python for nativeStart begin.");
   jboolean iscopy;
   const char *android_private =
       (*env)->GetStringUTFChars(env, j_android_private, &iscopy);
@@ -318,11 +331,72 @@ JNIEXPORT void JNICALL Java_org_kivy_android_PythonService_nativeStart(
   setenv("PYTHONPATH", python_path, 1);
   setenv("PYTHON_SERVICE_ARGUMENT", arg, 1);
 
-  char *argv[] = {"."};
+  const char *argv[20];
+  jsize stringCount = (*env)->GetArrayLength(env, j_application_args);
+
+  char out[256];
+  snprintf(out, 256, "stringCount: %d", stringCount);
+  LOGP(out);
+
+  for (int i = 0; i < stringCount; i++) {
+      LOGP("processing j_application_args");
+      jstring string = (jstring) (*env)->GetObjectArrayElement(env, j_application_args, i);
+      argv[i] = (*env)->GetStringUTFChars(env, string, &iscopy);
+  }
+
   /* ANDROID_ARGUMENT points to service subdir,
    * so main() will run main.py from this dir
    */
-  main(1, argv);
+  main(stringCount, argv);
+  LOGP("Python for nativeStart end.");
+}
+
+JNIEXPORT void JNICALL Java_org_youtube_dl_wrapper_YoutubeDlService_nativeStart(
+    JNIEnv *env, jobject thiz, jstring j_android_private,
+    jstring j_android_argument, jstring j_application_entrypoint,
+    jstring j_python_name, jstring j_python_home, jstring j_python_path, jobjectArray j_application_args) {
+  LOGP("Java_org_youtube_dl_wrapper_YoutubeDlService_nativeStart begin.");
+  jboolean iscopy;
+  const char *android_private =
+      (*env)->GetStringUTFChars(env, j_android_private, &iscopy);
+  const char *android_argument =
+      (*env)->GetStringUTFChars(env, j_android_argument, &iscopy);
+  const char *application_entrypoint =
+      (*env)->GetStringUTFChars(env, j_application_entrypoint, &iscopy);
+  const char *python_name =
+      (*env)->GetStringUTFChars(env, j_python_name, &iscopy);
+  const char *python_home =
+      (*env)->GetStringUTFChars(env, j_python_home, &iscopy);
+  const char *python_path =
+      (*env)->GetStringUTFChars(env, j_python_path, &iscopy);
+
+  setenv("ANDROID_PRIVATE", android_private, 1);
+  setenv("ANDROID_ARGUMENT", android_argument, 1);
+  setenv("ANDROID_APP_PATH", android_argument, 1);
+  setenv("ANDROID_ENTRYPOINT", application_entrypoint, 1);
+  setenv("PYTHONOPTIMIZE", "2", 1);
+  setenv("PYTHON_NAME", python_name, 1);
+  setenv("PYTHONHOME", python_home, 1);
+  setenv("PYTHONPATH", python_path, 1);
+
+  const char *argv[20];
+  jsize stringCount = (*env)->GetArrayLength(env, j_application_args);
+
+  char out[256];
+  snprintf(out, 256, "stringCount: %d", stringCount);
+  LOGP(out);
+
+  for (int i = 0; i < stringCount; i++) {
+      LOGP("processing j_application_args");
+      jstring string = (jstring) (*env)->GetObjectArrayElement(env, j_application_args, i);
+      argv[i] = (*env)->GetStringUTFChars(env, string, &iscopy);
+  }
+
+  /* ANDROID_ARGUMENT points to service subdir,
+   * so main() will run main.py from this dir
+   */
+  main(stringCount, argv);
+  LOGP("Python for nativeStart end.");
 }
 
 #endif
