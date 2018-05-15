@@ -1,5 +1,10 @@
 python-for-android
 ==================
+|Forked version|
+Changes:
+- Modified native start.c
+- Added bash script to easily build
+
 
 |Build Status|
 
