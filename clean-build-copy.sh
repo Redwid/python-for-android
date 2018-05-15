@@ -7,7 +7,8 @@ export PYTHONPATH=$PWD
 
 #script set up
 p4a="$PWD/pythonforandroid/toolchain.py"
-pythonApp="~/Projects/git/youtube-dl/youtube_dl"
+#pythonApp="~/Projects/git/youtube-dl/youtube_dl"
+pythonApp="$(dirname "$PWD")/youtube-dl/youtube_dl"
 pythonAppDistName="youtube_dl_wrapper"
 pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
@@ -24,17 +25,24 @@ build() {
 }
 
 copy_libs() {
-cp -rfv $distFolder/libs/ $PWD/libs/
+mkdir $PWD/build
+cp -rfv $distFolder/libs/ $PWD/build/libs/
+}
+
+copy_assets() {
+cp -rfv $distFolder/src/main/assets/ $PWD/build/assets
+rm $PWD/build/assets/.gitkeep
 }
 
 echo "[INFO]     Clean"
 clean
-rm -rfv $PWD/libs
+rm -rfv $PWD/build
 echo "[INFO]     Clean done"
 
 echo "[INFO]     Build [arm64-v8a]"
 build "arm64-v8a"
 copy_libs
+copy_assets
 echo "[INFO]     Build [arm64-v8a] done"
 
 echo "[INFO]     Build [armeabi-v7a]"
