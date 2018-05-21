@@ -14,9 +14,7 @@
 #include <sys/types.h>
 #include <errno.h>
 
-#include "SDL.h"
 #include "android/log.h"
-#include "SDL_opengles2.h"
 
 #define ENTRYPOINT_MAXLEN 128
 #define LOG(n, x) __android_log_write(ANDROID_LOG_INFO, (n), (x))
@@ -300,62 +298,11 @@ int main(int argc, char *argv[]) {
   return ret;
 }
 
-JNIEXPORT void JNICALL Java_org_kivy_android_PythonService_nativeStart(
-    JNIEnv *env, jobject thiz, jstring j_android_private,
-    jstring j_android_argument, jstring j_service_entrypoint,
-    jstring j_python_name, jstring j_python_home, jstring j_python_path,
-    jstring j_arg, jobjectArray j_application_args) {
-  LOGP("Python for nativeStart begin.");
-  jboolean iscopy;
-  const char *android_private =
-      (*env)->GetStringUTFChars(env, j_android_private, &iscopy);
-  const char *android_argument =
-      (*env)->GetStringUTFChars(env, j_android_argument, &iscopy);
-  const char *service_entrypoint =
-      (*env)->GetStringUTFChars(env, j_service_entrypoint, &iscopy);
-  const char *python_name =
-      (*env)->GetStringUTFChars(env, j_python_name, &iscopy);
-  const char *python_home =
-      (*env)->GetStringUTFChars(env, j_python_home, &iscopy);
-  const char *python_path =
-      (*env)->GetStringUTFChars(env, j_python_path, &iscopy);
-  const char *arg = (*env)->GetStringUTFChars(env, j_arg, &iscopy);
-
-  setenv("ANDROID_PRIVATE", android_private, 1);
-  setenv("ANDROID_ARGUMENT", android_argument, 1);
-  setenv("ANDROID_APP_PATH", android_argument, 1);
-  setenv("ANDROID_ENTRYPOINT", service_entrypoint, 1);
-  setenv("PYTHONOPTIMIZE", "2", 1);
-  setenv("PYTHON_NAME", python_name, 1);
-  setenv("PYTHONHOME", python_home, 1);
-  setenv("PYTHONPATH", python_path, 1);
-  setenv("PYTHON_SERVICE_ARGUMENT", arg, 1);
-
-  const char *argv[20];
-  jsize stringCount = (*env)->GetArrayLength(env, j_application_args);
-
-  char out[256];
-  snprintf(out, 256, "stringCount: %d", stringCount);
-  LOGP(out);
-
-  for (int i = 0; i < stringCount; i++) {
-      LOGP("processing j_application_args");
-      jstring string = (jstring) (*env)->GetObjectArrayElement(env, j_application_args, i);
-      argv[i] = (*env)->GetStringUTFChars(env, string, &iscopy);
-  }
-
-  /* ANDROID_ARGUMENT points to service subdir,
-   * so main() will run main.py from this dir
-   */
-  main(stringCount, argv);
-  LOGP("Python for nativeStart end.");
-}
-
-JNIEXPORT void JNICALL Java_org_youtube_dl_wrapper_YoutubeDlService_nativeStart(
+JNIEXPORT void JNICALL Java_org_redwid_android_youtube_dl_YoutubeDlService_nativeStart(
     JNIEnv *env, jobject thiz, jstring j_android_private,
     jstring j_android_argument, jstring j_application_entrypoint,
     jstring j_python_name, jstring j_python_home, jstring j_python_path, jobjectArray j_application_args) {
-  LOGP("Java_org_youtube_dl_wrapper_YoutubeDlService_nativeStart begin.");
+  LOGP("Java_org_redwid_youtube_dl_android_YoutubeDlService_nativeStart begin.");
   jboolean iscopy;
   const char *android_private =
       (*env)->GetStringUTFChars(env, j_android_private, &iscopy);
