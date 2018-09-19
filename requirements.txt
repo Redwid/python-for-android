@@ -1,0 +1,5 @@
+colorama==0.3.3
+appdirs==1.4.3
+sh==1.10
+jinja2==2.10
+cython=0.28.5
