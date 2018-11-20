@@ -13,7 +13,8 @@ class AndroidRecipe(IncludedFilesBehaviour, CythonRecipe):
 
     src_filename = 'src'
 
-    depends = [('pygame', 'sdl2', 'genericndkbuild'), ('python2', 'python3crystax')]
+    depends = [('pygame', 'sdl2', 'genericndkbuild'),
+               ('python2', 'python3crystax', 'python3')]
 
     config_env = {}
 
@@ -55,22 +56,24 @@ class AndroidRecipe(IncludedFilesBehaviour, CythonRecipe):
             'JNI_NAMESPACE': jni_ns,
         }
 
-        with current_directory(self.get_build_dir(arch.arch)):
-            with open(join('android', 'config.pxi'), 'w') as fpxi:
-                with open(join('android', 'config.h'), 'w') as fh:
-                    with open(join('android', 'config.py'), 'w') as fpy:
-                        for key, value in config.items():
-                            fpxi.write(tpxi.format(key, repr(value)))
-                            fpy.write(tpy.format(key, repr(value)))
-                            fh.write(th.format(key, value if isinstance(value, int)
-                                                    else '"{}"'.format(value)))
-                            self.config_env[key] = str(value)
+        with (
+                current_directory(self.get_build_dir(arch.arch))), (
+                open(join('android', 'config.pxi'), 'w')) as fpxi, (
+                open(join('android', 'config.h'), 'w')) as fh, (
+                open(join('android', 'config.py'), 'w')) as fpy:
+            for key, value in config.items():
+                fpxi.write(tpxi.format(key, repr(value)))
+                fpy.write(tpy.format(key, repr(value)))
+                fh.write(th.format(key,
+                                   value if isinstance(value, int)
+                                   else '"{}"'.format(value)))
+                self.config_env[key] = str(value)
 
-                        if is_sdl2:
-                            fh.write('JNIEnv *SDL_AndroidGetJNIEnv(void);\n')
-                            fh.write('#define SDL_ANDROID_GetJNIEnv SDL_AndroidGetJNIEnv\n')
-                        elif is_pygame:
-                            fh.write('JNIEnv *SDL_ANDROID_GetJNIEnv(void);\n')
+            if is_sdl2:
+                fh.write('JNIEnv *SDL_AndroidGetJNIEnv(void);\n')
+                fh.write('#define SDL_ANDROID_GetJNIEnv SDL_AndroidGetJNIEnv\n')
+            elif is_pygame:
+                fh.write('JNIEnv *SDL_ANDROID_GetJNIEnv(void);\n')
 
 
 recipe = AndroidRecipe()

@@ -3,7 +3,11 @@ from pythonforandroid.toolchain import shprint, current_directory, info
 from pythonforandroid.patching import (is_darwin, is_api_gt,
                                        check_all, is_api_lt, is_ndk)
 from os.path import exists, join, realpath
+from os import walk
+import glob
 import sh
+
+EXCLUDE_EXTS = (".py", ".pyc", ".so.o", ".so.a", ".so.libs", ".pyx")
 
 
 class Python2Recipe(TargetPythonRecipe):
@@ -87,23 +91,23 @@ class Python2Recipe(TargetPythonRecipe):
             # TODO need to add a should_build that checks if optional
             # dependencies have changed (possibly in a generic way)
             if 'openssl' in self.ctx.recipe_build_order:
-                r = Recipe.get_recipe('openssl', self.ctx)
-                openssl_build_dir = r.get_build_dir(arch.arch)
+                recipe = Recipe.get_recipe('openssl', self.ctx)
+                openssl_build_dir = recipe.get_build_dir(arch.arch)
                 setuplocal = join('Modules', 'Setup.local')
                 shprint(sh.cp, join(self.get_recipe_dir(), 'Setup.local-ssl'), setuplocal)
                 shprint(sh.sed, '-i.backup', 's#^SSL=.*#SSL={}#'.format(openssl_build_dir), setuplocal)
-                env['OPENSSL_VERSION'] = r.version
+                env['OPENSSL_VERSION'] = recipe.version
 
             if 'sqlite3' in self.ctx.recipe_build_order:
                 # Include sqlite3 in python2 build
-                r = Recipe.get_recipe('sqlite3', self.ctx)
-                i = ' -I' + r.get_build_dir(arch.arch)
-                l = ' -L' + r.get_lib_dir(arch) + ' -lsqlite3'
+                recipe = Recipe.get_recipe('sqlite3', self.ctx)
+                include = ' -I' + recipe.get_build_dir(arch.arch)
+                lib = ' -L' + recipe.get_lib_dir(arch) + ' -lsqlite3'
                 # Insert or append to env
-                f = 'CPPFLAGS'
-                env[f] = env[f] + i if f in env else i
-                f = 'LDFLAGS'
-                env[f] = env[f] + l if f in env else l
+                flag = 'CPPFLAGS'
+                env[flag] = env[flag] + include if flag in env else include
+                flag = 'LDFLAGS'
+                env[flag] = env[flag] + lib if flag in env else lib
 
             # NDK has langinfo.h but doesn't define nl_langinfo()
             env['ac_cv_header_langinfo_h'] = 'no'
@@ -169,6 +173,53 @@ class Python2Recipe(TargetPythonRecipe):
 
         # print('python2 build done, exiting for debug')
         # exit(1)
+
+    def create_python_bundle(self, dirn, arch):
+        info("Filling private directory")
+        if not exists(join(dirn, "lib")):
+            info("lib dir does not exist, making")
+            shprint(sh.cp, "-a",
+                    join("python-install", "lib"), dirn)
+        shprint(sh.mkdir, "-p",
+                join(dirn, "include", "python2.7"))
+
+        libpymodules_fn = join("libs", arch.arch, "libpymodules.so")
+        if exists(libpymodules_fn):
+            shprint(sh.mv, libpymodules_fn, dirn)
+        shprint(sh.cp,
+                join('python-install', 'include',
+                     'python2.7', 'pyconfig.h'),
+                join(dirn, 'include', 'python2.7/'))
+
+        info('Removing some unwanted files')
+        shprint(sh.rm, '-f', join(dirn, 'lib', 'libpython2.7.so'))
+        shprint(sh.rm, '-rf', join(dirn, 'lib', 'pkgconfig'))
+
+        libdir = join(dirn, 'lib', 'python2.7')
+        site_packages_dir = join(libdir, 'site-packages')
+        with current_directory(libdir):
+            removes = []
+            for dirname, root, filenames in walk("."):
+                for filename in filenames:
+                    for suffix in EXCLUDE_EXTS:
+                        if filename.endswith(suffix):
+                            removes.append(filename)
+            shprint(sh.rm, '-f', *removes)
+
+            info('Deleting some other stuff not used on android')
+            # To quote the original distribute.sh, 'well...'
+            shprint(sh.rm, '-rf', 'lib2to3')
+            shprint(sh.rm, '-rf', 'idlelib')
+            shprint(sh.rm, '-f', *glob.glob('config/libpython*.a'))
+            shprint(sh.rm, '-rf', 'config/python.o')
+
+        return site_packages_dir
+
+    def include_root(self, arch_name):
+        return join(self.get_build_dir(arch_name), 'python-install', 'include', 'python2.7')
+
+    def link_root(self, arch_name):
+        return join(self.get_build_dir(arch_name), 'python-install', 'lib')
 
 
 recipe = Python2Recipe()

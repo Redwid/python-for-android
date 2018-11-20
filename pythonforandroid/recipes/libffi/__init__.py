@@ -6,6 +6,12 @@ import sh
 
 
 class LibffiRecipe(Recipe):
+    """
+    Requires additional system dependencies on Ubuntu:
+        - `automake` for the `aclocal` binary
+        - `autoconf` for the `autoreconf` binary
+        - `libltdl-dev` which defines the `LT_SYS_SYMBOL_USCORE` macro
+    """
     name = 'libffi'
     version = 'v3.2.1'
     url = 'https://github.com/atgreen/libffi/archive/{version}.zip'
@@ -40,8 +46,8 @@ class LibffiRecipe(Recipe):
                     '--host=' + arch.toolchain_prefix,
                     '--prefix=' + self.ctx.get_python_install_dir(),
                     '--enable-shared', _env=env)
-            #'--with-sysroot={}'.format(self.ctx.ndk_platform),
-            #'--target={}'.format(arch.toolchain_prefix),
+            # '--with-sysroot={}'.format(self.ctx.ndk_platform),
+            # '--target={}'.format(arch.toolchain_prefix),
 
             # ndk 15 introduces unified headers required --sysroot and
             # -isysroot for libraries and headers. libtool's head explodes
