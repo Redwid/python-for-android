@@ -354,7 +354,6 @@ JNIEXPORT void JNICALL Java_org_redwid_android_youtube_dl_YoutubeDlWorker_native
   setenv("PYTHON_NAME", python_name, 1);
   setenv("PYTHONHOME", python_home, 1);
   setenv("PYTHONPATH", python_path, 1);
-  setenv("PYTHON_SERVICE_ARGUMENT", arg, 1);
   setenv("P4A_BOOTSTRAP", "SDL2", 1);
 
   const char *argv[20];
