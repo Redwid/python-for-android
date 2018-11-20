@@ -298,11 +298,11 @@ int main(int argc, char *argv[]) {
   return ret;
 }
 
-JNIEXPORT void JNICALL Java_org_redwid_android_youtube_dl_YoutubeDlService_nativeStart(
+JNIEXPORT void JNICALL Java_org_redwid_android_youtube_dl_YoutubeDlWorker_nativeStart(
     JNIEnv *env, jobject thiz, jstring j_android_private,
     jstring j_android_argument, jstring j_application_entrypoint,
     jstring j_python_name, jstring j_python_home, jstring j_python_path, jobjectArray j_application_args) {
-  LOGP("Java_org_redwid_youtube_dl_android_YoutubeDlService_nativeStart begin.");
+  LOGP("Python Java_org_redwid_android_youtube_dl_YoutubeDlWorker_nativeStart() begin");
   jboolean iscopy;
   const char *android_private =
       (*env)->GetStringUTFChars(env, j_android_private, &iscopy);
