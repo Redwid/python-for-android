@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
+#
+# Set up instructions for MacOS (10.14)
+#  1. Set up your ANDROID_HOME directory:
+#         export ANDROID_HOME=/Users/{your_user_name_here}/Library/Android/sdk
+#         source ~/.bash_profile
+# 2. Install gcc:
+#         brew install gcc
+# 3. Install the macOS_SDK_headers_for_macOS_10.14.pkg: https://github.com/frida/frida/issues/338#issuecomment-424595668
+#         cd /Library/Developer/CommandLineTools/Packages/
+#         open macOS_SDK_headers_for_macOS_10.14.pkg
+# 4. Install llvm:
+#         brew install llvm
+# 5. Install XCode
+# 6. Download NDK r16b: https://developer.android.com/ndk/downloads/older_releases?hl=zh-tw
+#         set ndkDir value below pointed to unpacked NDK r16b folder
+#
+
+
 #enviroment set up
 export PYTHONIOENCODING=UTF-8
 export PYTHONUNBUFFERED=1
@@ -12,7 +30,7 @@ pythonAppDistName="youtube_dl_wrapper"
 pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
 distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
-ndkDir=~/Library/Android/sdk/ndk-bundle
+ndkDir=~/Downloads/android-ndk-r16b
 
 #Link for android-youtube-dl project to where script will copy build artifacts
 androidYoutubeDlProject="$(dirname "$PWD")/android-youtube-dl"
