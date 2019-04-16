@@ -1,21 +1,21 @@
 sudo: required
 #jdk: openjdk8
 
-language: android
+#language: android
 
 
-android:
-  components:
-  - tools
-  - platform-tools
-  - build-tools-23.0.1
-  - android-23
+#android:
+#  components:
+#  - tools
+#  - platform-tools
+#  - build-tools-23.0.1
+#  - android-23
 #  - extra-google-m2repository
 #  - extra-android-m2repository
 
-  licenses:
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
+#  licenses:
+#  - 'android-sdk-license-.+'
+#  - 'google-gdk-license-.+'
 
 
 before_install:
@@ -35,8 +35,8 @@ install:
   - ls -a
   - pwd
   - ls -l /home/travis/build/Redwid/
-  - ls -l /home/travis/build/Redwid/youtube-dl/
-  - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/
+  - ls /home/travis/build/Redwid/youtube-dl/
+  - ls /home/travis/build/Redwid/youtube-dl/youtube_dl/
   - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/main.py
 
 env:
