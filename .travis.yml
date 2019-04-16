@@ -25,6 +25,7 @@ before_install:
   - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
   - unzip -qq android-ndk-r16b-linux-x86_64.zip -d $HOME
   - export ANDROID_NDK_HOME=$HOME/android-ndk-r16b
+  - echo "ANDROID_NDK_HOME" $ANDROID_NDK_HOME
   - export PATH=$PATH:$ANDROID_NDK_HOME
   - export PIP_DISABLE_PIP_VERSION_CHECK=1
   - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
