@@ -1,5 +1,5 @@
 sudo: required
-
+#jdk: openjdk8
 
 language: android
 
@@ -34,6 +34,9 @@ install:
   - git clone --depth=50 --branch=master https://github.com/Redwid/youtube-dl.git Redwid/youtube-dl
   - ls -a
   - pwd
+  - ls -l /home/travis/build/Redwid/
+  - ls -l /home/travis/build/Redwid/youtube-dl/
+  - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/
   - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/main.py
 
 env:
