@@ -21,17 +21,18 @@ android:
 
 before_install:
   - sudo apt update -qq
-  - sudo apt install -qq --no-install-recommends build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
-  - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
-  - unzip -qq android-ndk-r16b-linux-x86_64.zip -d $HOME
-  - export ANDROID_NDK_HOME=$HOME/android-ndk-r16b
-  - echo "ANDROID_NDK_HOME" $ANDROID_NDK_HOME
-  - export PATH=$PATH:$ANDROID_NDK_HOME
-  - export PIP_DISABLE_PIP_VERSION_CHECK=1
-  - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
-  - pip install --user -r requirements.txt
+#  - sudo apt install -qq --no-install-recommends build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
+#  - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+#  - unzip -qq android-ndk-r16b-linux-x86_64.zip -d $HOME
+#  - export ANDROID_NDK_HOME=$HOME/android-ndk-r16b
+#  - echo "ANDROID_NDK_HOME" $ANDROID_NDK_HOME
+#  - export PATH=$PATH:$ANDROID_NDK_HOME
+#  - export PIP_DISABLE_PIP_VERSION_CHECK=1
+#  - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
+#  - pip install --user -r requirements.txt
   - ls -a
   - pwd
+  - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/main.py
 
 install:
   - git clone --depth=50 --branch=master https://github.com/Redwid/youtube-dl.git Redwid/youtube-dl
@@ -43,6 +44,6 @@ env:
     - ANDROID_SDK_HOME=/opt/android/android-sdk
 
 
-script:
-  - sh clean-build-copy.sh
+#script:
+#  - sh clean-build-copy.sh
 
