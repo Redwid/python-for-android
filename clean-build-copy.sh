@@ -24,8 +24,11 @@ export VERSIONER_PYTHON_VERSION=2.7
 export PYTHONPATH=$PWD
 export ANDROIDAPI="23"
 export NDKAPI="16"
-#Commented for travis build
-#export ANDROID_NDK_HOME=~/Downloads/android-ndk-r16b
+
+if [ -z "$ANDROID_NDK_HOME" ]
+then
+    export ANDROID_NDK_HOME=~/Downloads/android-ndk-r16b
+fi
 
 #script set up
 p4a="$PWD/pythonforandroid/toolchain.py"
@@ -33,9 +36,17 @@ pythonApp="$(dirname "$PWD")/youtube-dl/youtube_dl"
 pythonAppDistName="youtube_dl_wrapper"
 pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
-distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
+
+#Check if we are running on travis
+if [[$CI == 'true' && $TRAVIS == 'true']];
+then
+    distFolder="$HOME/.local/share/python-for-android/dists/$pythonAppDistName"
+else
+    distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
+fi
 
 echo "pythonApp: ${pythonApp}"
+echo "distFolder: ${distFolder}"
 
 #Link for android-youtube-dl project to where script will copy build artifacts
 androidYoutubeDlProject="$(dirname "$PWD")/android-youtube-dl"
@@ -69,7 +80,7 @@ rm $PWD/build/assets/.gitkeep
 
 delete_unused_assets "armeabi-v7a"
 #delete_unused_assets "x86"
-#delete_unused_assets "arm64-v8a"
+delete_unused_assets "arm64-v8a"
 }
 
 delete_unused_assets() {
@@ -88,7 +99,7 @@ clean
 
 build "armeabi-v7a"
 #build "x86"
-#build "arm64-v8a"
+build "arm64-v8a"
 
 copy_assets_to_androidYoutubeDlProject
 echo "[INFO]     Build done"
