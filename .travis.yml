@@ -10,7 +10,7 @@ android:
   - platform-tools
   - build-tools-23.0.1
   - android-23
-  - extra-google-google_play_services
+  #- extra-google-google_play_services
   - extra-google-m2repository
   - extra-android-m2repository
 
@@ -30,9 +30,13 @@ before_install:
   - export PIP_DISABLE_PIP_VERSION_CHECK=1
   - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
   - pip install --user -r requirements.txt
+  - ls
+  - echo `pwd`
 
 install:
   - git clone --depth=50 --branch=master https://github.com/Redwid/youtube-dl.git Redwid/youtube-dl
+  - ls
+  - echo `pwd`
 
 env:
   global:
