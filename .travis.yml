@@ -7,6 +7,8 @@ before_install:
   - sudo apt install -qq --no-install-recommends python2.7 python3
   - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
   - unzip -qq android-ndk-r16b-linux-x86_64.zip
+  - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
+  - pip install -r requirements.txt
 
 
 env:
