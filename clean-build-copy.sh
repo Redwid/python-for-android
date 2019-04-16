@@ -38,11 +38,11 @@ pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
 
 #Check if we are running on travis
-if [[$CI == 'true' && $TRAVIS == 'true']];
+if [ -z "$TRAVIS" ]
 then
-    distFolder="$HOME/.local/share/python-for-android/dists/$pythonAppDistName"
-else
     distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
+else
+    distFolder="$HOME/.local/share/python-for-android/dists/$pythonAppDistName"
 fi
 
 echo "pythonApp: ${pythonApp}"
