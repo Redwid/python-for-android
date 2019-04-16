@@ -2,17 +2,17 @@ sudo: required
 
 language: generic
 
-services:
-  - docker
-
 before_install:
   - sudo apt update -qq
   - sudo apt install -qq --no-install-recommends python2.7 python3
+  - wget wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+  - unzip -qq android-ndk-r16b-linux-x86_64.zip
+
 
 env:
   global:
     - ANDROID_SDK_HOME=/opt/android/android-sdk
-    - ANDROID_NDK_HOME=/opt/android/android-ndk
+    - ANDROID_NDK_HOME=`pwd`/android-ndk-r16b
 
 script:
-  - docker sh clean-build-copy.sh
+  - sh clean-build-copy.sh
