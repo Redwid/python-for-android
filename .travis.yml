@@ -10,8 +10,8 @@ android:
   - platform-tools
   - build-tools-23.0.1
   - android-23
-  - extra-google-m2repository
-  - extra-android-m2repository
+#  - extra-google-m2repository
+#  - extra-android-m2repository
 
   licenses:
   - 'android-sdk-license-.+'
@@ -29,14 +29,12 @@ before_install:
 #  - export PIP_DISABLE_PIP_VERSION_CHECK=1
 #  - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
 #  - pip install --user -r requirements.txt
-  - ls -a
-  - pwd
-  - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/main.py
 
 install:
   - git clone --depth=50 --branch=master https://github.com/Redwid/youtube-dl.git Redwid/youtube-dl
   - ls -a
   - pwd
+  - ls -l /home/travis/build/Redwid/youtube-dl/youtube_dl/main.py
 
 env:
   global:
