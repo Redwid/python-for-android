@@ -221,6 +221,7 @@ def make_package(args):
     # Ignore warning if the launcher is in args
     if not args.launcher:
         print('args.private path: {}'.format(args.private))
+        print('realpath: {}'.format(join(realpath(args.private), 'main.py')))
         if not (exists(join(realpath(args.private), 'main.py')) or
                 exists(join(realpath(args.private), 'main.pyo'))):
             print('''BUILD FAILURE: No main.py(o) found in your app directory. This
