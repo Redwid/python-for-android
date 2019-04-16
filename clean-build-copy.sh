@@ -23,6 +23,7 @@ export PYTHONUNBUFFERED=1
 export VERSIONER_PYTHON_VERSION=2.7
 export PYTHONPATH=$PWD
 export ANDROIDAPI="23"
+export NDKAPI="r16b"
 
 #script set up
 p4a="$PWD/pythonforandroid/toolchain.py"
