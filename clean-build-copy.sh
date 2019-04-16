@@ -13,7 +13,7 @@
 #         brew install llvm
 # 5. Install XCode
 # 6. Download NDK r16b: https://developer.android.com/ndk/downloads/older_releases?hl=zh-tw
-#         set ndkDir value below pointed to unpacked NDK r16b folder
+#         set $ANDROID_NDK_HOME value below pointed to unpacked NDK r16b folder
 #
 
 
@@ -24,6 +24,8 @@ export VERSIONER_PYTHON_VERSION=2.7
 export PYTHONPATH=$PWD
 export ANDROIDAPI="23"
 export NDKAPI="16"
+#Commented for travis build
+#export ANDROID_NDK_HOME=~/Downloads/android-ndk-r16b
 
 #script set up
 p4a="$PWD/pythonforandroid/toolchain.py"
@@ -32,8 +34,8 @@ pythonAppDistName="youtube_dl_wrapper"
 pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
 distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
-#ndkDir=~/Downloads/android-ndk-r16b
-ndkDir=$ANDROID_NDK_HOME
+
+echo "pythonApp: ${pythonApp}"
 
 #Link for android-youtube-dl project to where script will copy build artifacts
 androidYoutubeDlProject="$(dirname "$PWD")/android-youtube-dl"
@@ -50,7 +52,7 @@ build() {
 echo "[INFO]     Build [$1]"
 /usr/bin/python $p4a clean_builds
 rm -rfv $distFolder
-/usr/bin/python $p4a apk --private $pythonApp --dist_name=$pythonAppDistName --package=$pythonAppPackageName --name=$pythonAppName --version=1 --ndk_dir $ndkDir --ndk_version r16b --requirements=android,pyopenssl,pycrypto,openssl --android_api=23 --arch=$1 --java-build-tool gradle
+/usr/bin/python $p4a apk --private $pythonApp --dist_name=$pythonAppDistName --package=$pythonAppPackageName --name=$pythonAppName --version=1 --ndk_dir $ANDROID_NDK_HOME --ndk_version r16b --requirements=android,pyopenssl,pycrypto,openssl --android_api=23 --arch=$1 --java-build-tool gradle
 copy_libs
 copy_assets
 echo "[INFO]     Build [$1] done"
