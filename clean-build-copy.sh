@@ -32,7 +32,8 @@ pythonAppDistName="youtube_dl_wrapper"
 pythonAppPackageName="org.youtube.dl"
 pythonAppName="youtube_dl"
 distFolder="$HOME/.python-for-android/dists/$pythonAppDistName"
-ndkDir=~/Downloads/android-ndk-r16b
+#ndkDir=~/Downloads/android-ndk-r16b
+ndkDir=$ANDROID_NDK_HOME
 
 #Link for android-youtube-dl project to where script will copy build artifacts
 androidYoutubeDlProject="$(dirname "$PWD")/android-youtube-dl"
