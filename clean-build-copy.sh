@@ -69,7 +69,7 @@ rm $PWD/build/assets/.gitkeep
 
 delete_unused_assets "armeabi-v7a"
 #delete_unused_assets "x86"
-delete_unused_assets "arm64-v8a"
+#delete_unused_assets "arm64-v8a"
 }
 
 delete_unused_assets() {
@@ -88,7 +88,7 @@ clean
 
 build "armeabi-v7a"
 #build "x86"
-build "arm64-v8a"
+#build "arm64-v8a"
 
 copy_assets_to_androidYoutubeDlProject
 echo "[INFO]     Build done"
