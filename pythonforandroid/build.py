@@ -1,19 +1,19 @@
 from __future__ import print_function
 
-from os.path import (join, realpath, dirname, expanduser, exists,
-                     split, isdir)
-from os import environ
-import os
 import glob
-import sys
+import os
 import re
 import sh
+import sys
+from os import environ
+from os.path import (join, realpath, dirname, expanduser, exists,
+                     split, isdir)
 
-from pythonforandroid.util import (ensure_dir, current_directory)
+from pythonforandroid.archs import ArchARM, ArchARMv7_a, ArchAarch_64, Archx86
 from pythonforandroid.logger import (info, warning, error, info_notify,
                                      Err_Fore, info_main, shprint)
-from pythonforandroid.archs import ArchARM, ArchARMv7_a, ArchAarch_64, Archx86
 from pythonforandroid.recipe import Recipe
+from pythonforandroid.util import (ensure_dir, current_directory)
 
 DEFAULT_ANDROID_API = 15
 
@@ -414,6 +414,8 @@ class Context(object):
             'platforms',
             'android-{}'.format(self.ndk_api),
             platform_dir)
+        warning('self.ndk_dir: {}'.format(self.ndk_dir))
+        warning('self.ndk_api: {}'.format(self.ndk_api))
         if not exists(self.ndk_platform):
             warning('ndk_platform doesn\'t exist: {}'.format(
                 self.ndk_platform))
