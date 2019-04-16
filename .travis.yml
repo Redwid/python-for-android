@@ -15,4 +15,4 @@ env:
     - ANDROID_NDK_HOME=/opt/android/android-ndk
 
 script:
-  - sh clean-build-copy.sh
+  - docker sh clean-build-copy.sh
