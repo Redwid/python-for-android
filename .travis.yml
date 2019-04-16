@@ -12,7 +12,7 @@ android:
   # - platform-tools
 
   # The BuildTools version used by your project
-  - build-tools-28.0.3
+  - build-tools-23.0.1
 
   # The SDK version used to compile your project
   - android-23
@@ -33,7 +33,7 @@ android:
 
 before_install:
   - sudo apt update -qq
-  - sudo apt install -qq --no-install-recommends python2.7 python3
+  - sudo apt-get install -y build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
   - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
   - unzip -qq android-ndk-r16b-linux-x86_64.zip
   - export PIP_DISABLE_PIP_VERSION_CHECK=1
