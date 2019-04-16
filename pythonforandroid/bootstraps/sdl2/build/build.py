@@ -2,22 +2,21 @@
 # coding: utf-8
 
 from __future__ import print_function
-from os.path import (
-    dirname, join, isfile, realpath, relpath, split, exists, basename)
-from os import makedirs, remove, listdir
-import os
-import tarfile
-import time
-import json
-import subprocess
-import shutil
-from zipfile import ZipFile
-import sys
-from distutils.version import LooseVersion
-
-from fnmatch import fnmatch
 
 import jinja2
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tarfile
+import time
+from distutils.version import LooseVersion
+from fnmatch import fnmatch
+from os import makedirs, remove, listdir
+from os.path import (
+    dirname, join, isfile, realpath, relpath, split, exists, basename)
+from zipfile import ZipFile
 
 curdir = dirname(__file__)
 
@@ -221,6 +220,7 @@ def compile_dir(dfn):
 def make_package(args):
     # Ignore warning if the launcher is in args
     if not args.launcher:
+        print('args.private path: {}'.format(args.private))
         if not (exists(join(realpath(args.private), 'main.py')) or
                 exists(join(realpath(args.private), 'main.pyo'))):
             print('''BUILD FAILURE: No main.py(o) found in your app directory. This
