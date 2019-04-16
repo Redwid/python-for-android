@@ -414,8 +414,6 @@ class Context(object):
             'platforms',
             'android-{}'.format(self.ndk_api),
             platform_dir)
-        warning('self.ndk_dir: {}'.format(self.ndk_dir))
-        warning('self.ndk_api: {}'.format(self.ndk_api))
         if not exists(self.ndk_platform):
             warning('ndk_platform doesn\'t exist: {}'.format(
                 self.ndk_platform))
