@@ -2,3 +2,4 @@ colorama==0.3.3
 appdirs==1.4.3
 sh==1.10
 jinja2==2.10
+Cython==0.29.7
