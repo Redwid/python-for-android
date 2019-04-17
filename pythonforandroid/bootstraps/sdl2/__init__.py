@@ -1,8 +1,10 @@
+from os.path import join, exists
+
+import sh
+
 from pythonforandroid.toolchain import (
     Bootstrap, shprint, current_directory, info, info_main)
 from pythonforandroid.util import ensure_dir
-from os.path import join, exists
-import sh
 
 
 class SDL2GradleBootstrap(Bootstrap):
@@ -36,7 +38,7 @@ class SDL2GradleBootstrap(Bootstrap):
             hostpython = sh.Command(self.ctx.hostpython)
             if self.ctx.python_recipe.name == 'python2':
                 try:
-                    shprint(hostpython, '-OO', '-m', 'compileall',
+                    shprint(hostpython, '-OO', '-m', 'compileall', '-q',
                             python_install_dir,
                             _tail=10, _filterout="^Listing")
                 except sh.ErrorReturnCode:

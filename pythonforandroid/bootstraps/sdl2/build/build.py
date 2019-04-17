@@ -215,7 +215,7 @@ def compile_dir(dfn):
     # -OO = strip docstrings
     if PYTHON is None:
         return
-    subprocess.call([PYTHON, '-OO', '-m', 'compileall', '-f', dfn])
+    subprocess.call([PYTHON, '-OO', '-m', 'compileall', '-f', '-q', dfn])
 
 
 def make_package(args):

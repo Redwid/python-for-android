@@ -1,7 +1,9 @@
 import glob
 from os import walk
 from os.path import join, exists, curdir, abspath
+
 import sh
+
 from pythonforandroid.toolchain import Bootstrap, current_directory, info, info_main, shprint
 
 
@@ -42,7 +44,7 @@ class ServiceOnlyBootstrap(Bootstrap):
             hostpython = sh.Command(self.ctx.hostpython)
             if not self.ctx.python_recipe.from_crystax:
                 try:
-                    shprint(hostpython, '-OO', '-m', 'compileall',
+                    shprint(hostpython, '-OO', '-m', 'compileall', '-q',
                             self.ctx.get_python_install_dir(),
                             _tail=10, _filterout="^Listing")
                 except sh.ErrorReturnCode:

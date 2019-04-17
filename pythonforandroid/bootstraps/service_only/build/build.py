@@ -2,17 +2,16 @@
 
 from __future__ import print_function
 
-from os.path import dirname, join, isfile, realpath, relpath, split, exists
-from os import makedirs
 import os
-import tarfile
-import subprocess
-import shutil
-from zipfile import ZipFile
-import sys
 import shlex
-
+import shutil
+import subprocess
+import sys
+import tarfile
 from fnmatch import fnmatch
+from os import makedirs
+from os.path import dirname, join, isfile, realpath, relpath, split, exists
+from zipfile import ZipFile
 
 import jinja2
 
@@ -205,7 +204,7 @@ def compile_dir(dfn):
 
     return  # Currently leaving out the compile to pyo step because it's somehow broken
     # -OO = strip docstrings
-    subprocess.call([PYTHON, '-OO', '-m', 'compileall', '-f', dfn])
+    subprocess.call([PYTHON, '-OO', '-m', 'compileall', '-f', '-q', dfn])
 
 
 def make_package(args):
