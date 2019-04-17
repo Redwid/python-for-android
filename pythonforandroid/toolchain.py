@@ -7,6 +7,7 @@ This module defines the entry point for command line and programmatic use.
 """
 
 from __future__ import print_function
+
 from pythonforandroid import __version__
 from pythonforandroid.build import DEFAULT_NDK_API, DEFAULT_ANDROID_API
 
@@ -515,8 +516,8 @@ class ToolchainCL(object):
 
         setup_color(args.color)
 
-        if args.debug:
-            logger.setLevel(logging.DEBUG)
+        # if args.debug:
+        logger.setLevel(logging.WARNING)
 
         # strip version from requirements, and put them in environ
         if hasattr(args, 'requirements'):
