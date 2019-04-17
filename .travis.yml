@@ -19,8 +19,8 @@ android:
 
 
 before_install:
-  - sudo apt update -qq
-  - sudo apt install -qq --no-install-recommends build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
+  - sudo apt -qq update
+  - sudo apt -qq install --no-install-recommends build-essential ccache git zlib1g-dev python2.7 python2.7-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool
   - wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
   - unzip -qq android-ndk-r16b-linux-x86_64.zip -d $HOME
   - export ANDROID_NDK_HOME=$HOME/android-ndk-r16b
