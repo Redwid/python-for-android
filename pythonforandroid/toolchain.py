@@ -516,8 +516,8 @@ class ToolchainCL(object):
 
         setup_color(args.color)
 
-        # if args.debug:
-        logger.setLevel(logging.WARNING)
+        if args.debug:
+            logger.setLevel(logging.DEBUG)
 
         # strip version from requirements, and put them in environ
         if hasattr(args, 'requirements'):
