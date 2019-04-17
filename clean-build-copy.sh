@@ -65,7 +65,7 @@ build() {
     echo "[INFO]     Build [$1]"
     python $p4a clean_builds
     rm -rf $distFolder
-    python $p4a apk --private=$pythonApp --dist_name=$pythonAppDistName --package=$pythonAppPackageName --name=$pythonAppName --version=1 --ndk_dir=$ANDROID_NDK_HOME --ndk_version=r16b --requirements=android,pyopenssl,pycrypto,openssl --android_api=23 --arch=$1 --java-build-tool=gradle
+    python -W ignore $p4a apk --private=$pythonApp --dist_name=$pythonAppDistName --package=$pythonAppPackageName --name=$pythonAppName --version=1 --ndk_dir=$ANDROID_NDK_HOME --ndk_version=r16b --requirements=android,pyopenssl,pycrypto,openssl --android_api=23 --arch=$1 --java-build-tool=gradle
 #    if [ -z "$TRAVIS" ]
 #    then
 #        copy_libs
