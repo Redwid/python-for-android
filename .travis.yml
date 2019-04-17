@@ -28,7 +28,7 @@ before_install:
   - export PATH=$PATH:$ANDROID_NDK_HOME
   - export PIP_DISABLE_PIP_VERSION_CHECK=1
   - virtualenv --python=/usr/bin/python2.7 venv/bin/activate
-  - pip install --user -r requirements.txt
+  - pip install --quiet --user -r requirements.txt
 
 
 install:
