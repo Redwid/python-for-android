@@ -43,6 +43,6 @@ deploy:
 #  dry_run: true
   provider: bintray
   file: bintray-descriptor.json
-  user: BINTRAY_USER
-  key: BINTRAY_API_KEY
+  user: $BINTRAY_USER
+  key: $BINTRAY_API_KEY
   skip_cleanup: true # to upload artifacts created during the build
