@@ -20,10 +20,9 @@
      In case the version already exists on Bintray, only the name fields is mandatory. */
 
   "version": {
-    "name": "0.0.1",
+    "name": "0.6.1",
     "desc": "Initial version",
     "released": "2019-04-18",
-    "vcs_tag": "0.0.1",
     "gpgSign": false
   },
 
