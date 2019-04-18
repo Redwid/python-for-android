@@ -38,8 +38,8 @@ publishing {
 
 def createArtifacts() {
 	def artifacts = []
-	artifacts += [source: "/Users/viacheslav.vdovenko/Projects/git-2/python-for-android/build/arm64-v8a.aar", classifier: "arm64-v8a", extension: "aar"]
-	artifacts += [source: "/Users/viacheslav.vdovenko/Projects/git-2/python-for-android/build/armeabi-v7a.aar", classifier: "armeabi-v7a", extension: "aar"]
+	artifacts += [source: "../build/arm64-v8a.aar", classifier: "arm64-v8a", extension: "aar"]
+	artifacts += [source: "../build/armeabi-v7a.aar", classifier: "armeabi-v7a", extension: "aar"]
 	println("artifacts: " + artifacts)
 	return artifacts
 }
