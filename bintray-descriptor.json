@@ -6,7 +6,7 @@
   "package": {
     "name": "org.redwid.android.python", // Bintray package name
     "repo": "maven", // Bintray repository name
-    "subject": "Redwid", // Bintray subject (user or organization)
+    "subject": "redwid", // Bintray subject (user or organization)
     "desc": "The travis-ci build",
     "website_url": "https://github.com/Redwid/python-for-android",
     "issue_tracker_url": "https://github.com/Redwid/python-for-android",
