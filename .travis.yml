@@ -42,4 +42,5 @@ script:
 deploy:
 #  dry_run: true
   provider: script
-  script: sh gradlew --no-daemon bintrayUpload --info
+  skip_cleanup: true
+  script: cd deploy && sh gradlew --no-daemon bintrayUpload --info
