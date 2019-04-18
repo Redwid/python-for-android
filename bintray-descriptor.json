@@ -4,7 +4,7 @@
      fields are mandatory. */
 
   "package": {
-    "name": "org.redwid.android.python", // Bintray package name
+    "name": "org.redwid.android.youtube.dl.python", // Bintray package name
     "repo": "maven", // Bintray repository name
     "subject": "redwid", // Bintray subject (user or organization)
     "desc": "The travis-ci build",
