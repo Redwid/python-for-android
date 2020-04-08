@@ -19,7 +19,7 @@ allprojects {
 
 group = 'org.redwid.android.youtube.dl'
 description = 'python'
-version = '0.6.6'
+version = '0.6.7'
 
 publishing {
 	publications {
