@@ -2,6 +2,7 @@ import fnmatch
 import glob
 import hashlib
 import importlib
+import os
 import shutil
 from os import listdir, unlink, environ, mkdir, curdir, walk
 from os.path import basename, dirname, exists, isdir, isfile, join, realpath, split
@@ -373,6 +374,8 @@ class Recipe(with_metaclass(RecipeMeta)):
                 extraction_filename = join(
                     self.ctx.packages_path, self.name, filename)
                 if isfile(extraction_filename):
+                    info('File type for {}'.format(extraction_filename))
+                    os.system('file ' + extraction_filename)
                     if extraction_filename.endswith('.zip'):
                         try:
                             sh.unzip(extraction_filename)
