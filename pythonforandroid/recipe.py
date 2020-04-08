@@ -1,17 +1,17 @@
-from os.path import basename, dirname, exists, isdir, isfile, join, realpath, split
-import importlib
+import fnmatch
 import glob
-from shutil import rmtree
-from six import PY2, with_metaclass
-
 import hashlib
+import importlib
+import shutil
+from os import listdir, unlink, environ, mkdir, curdir, walk
+from os.path import basename, dirname, exists, isdir, isfile, join, realpath, split
 from re import match
+from shutil import rmtree
+from sys import stdout
 
 import sh
-import shutil
-import fnmatch
-from os import listdir, unlink, environ, mkdir, curdir, walk
-from sys import stdout
+from six import PY2, with_metaclass
+
 try:
     from urlparse import urlparse
 except ImportError:
@@ -144,7 +144,19 @@ class Recipe(with_metaclass(RecipeMeta)):
             if exists(target):
                 unlink(target)
 
-            urlretrieve(url, target, report_hook)
+            # Download item with multiple attempts (for bad connections):
+            attempts = 0
+            while True:
+                try:
+                    urlretrieve(url, target, report_hook)
+                except OSError:
+                    attempts += 1
+                    if attempts >= 5:
+                        raise
+                    stdout.write('Download failed retrying in a second...')
+                    time.sleep(1)
+                    continue
+                break
             return target
         elif parsed_url.scheme in ('git', 'git+file', 'git+ssh', 'git+http', 'git+https'):
             if isdir(target):
@@ -375,17 +387,12 @@ class Recipe(with_metaclass(RecipeMeta)):
                         root_directory = fileh.filelist[0].filename.split('/')[0]
                         if root_directory != basename(directory_name):
                             shprint(sh.mv, root_directory, directory_name)
-                    elif (extraction_filename.endswith('.tar.gz') or
-                          extraction_filename.endswith('.tgz') or
-                          extraction_filename.endswith('.tar.bz2') or
-                          extraction_filename.endswith('.tbz2') or
-                          extraction_filename.endswith('.tar.xz') or
-                          extraction_filename.endswith('.txz')):
+                    elif extraction_filename.endswith(
+                            ('.tar.gz', '.tgz', '.tar.bz2', '.tbz2', '.tar.xz', '.txz')):
                         sh.tar('xf', extraction_filename)
-                        root_directory = shprint(
-                            sh.tar, 'tf', extraction_filename).stdout.decode(
-                                'utf-8').split('\n')[0].split('/')[0]
-                        if root_directory != directory_name:
+                        root_directory = sh.tar('tf', extraction_filename).stdout.decode(
+                            'utf-8').split('\n')[0].split('/')[0]
+                        if root_directory != basename(directory_name):
                             shprint(sh.mv, root_directory, directory_name)
                     else:
                         raise Exception(
