@@ -40,7 +40,7 @@ script:
   - sh clean-build-copy.sh
 
 deploy:
-  dry_run: true
+#  dry_run: true
   provider: script
   skip_cleanup: true
   script: cd deploy && sh gradlew --no-daemon bintrayUpload --info
