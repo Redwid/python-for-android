@@ -8,7 +8,7 @@ from pythonforandroid.toolchain import Recipe, shprint, current_directory
 class OpenSSLRecipe(Recipe):
     version = '1.0.2h'
     #url = 'https://www.openssl.org/source/openssl-{version}.tar.gz'
-    url = 'https://github.com/openssl/openssl/archive/OpenSSL_1_0_2n.tar.gz'
+    url = 'https://github.com/openssl/openssl/archive/OpenSSL_1_0_2h.tar.gz'
 
     def should_build(self, arch):
         return not self.has_libs(arch, 'libssl' + self.version + '.so',
